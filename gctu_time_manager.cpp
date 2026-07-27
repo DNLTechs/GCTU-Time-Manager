@@ -7,12 +7,11 @@
 
 using namespace std;
 
-// ================================================
-// STRUCT — A struct is like a container that groups
-// related variables together under one name.
-// Think of it like a form with multiple fields.
-// Each Assignment has 6 fields inside it.
-// ================================================
+/* STRUCT — A struct is like a container that groups
+*  related variables together under one name.
+* Think of it like a form with multiple fields.
+* Each Assignment has 6 fields inside it.*/
+
 struct Assignment {
     string course;        // name of the course
     string description;   // what the assignment is about
@@ -22,19 +21,18 @@ struct Assignment {
     int wrongAttempts;    // counts how many times student failed verification
 };
 
-// ================================================
-// CONSTANT — FILE_NAME stores the name of the file
-// where all assignments are saved on the computer.
-// const means this value can never be changed.
-// ================================================
+/* CONSTANT — FILE_NAME stores the name of the file
+* where all assignments are saved on the computer.
+* const means this value can never be changed.
+*/
 const string FILE_NAME = "assignments.txt";
 
-// ================================================
-// FUNCTION 1: toLower
+/* FUNCTION 1: toLower
 // Converts any text to all lowercase letters.
 // So "Calculus" and "CALCULUS" both become "calculus"
-// This makes our verification comparison fair.
-// ================================================
+* This makes our verification comparison fair.
+*/
+
 string toLower(string text) {
     for (size_t i = 0; i < text.length(); i++) {
         text[i] = tolower(text[i]); // convert each character to lowercase
@@ -42,14 +40,13 @@ string toLower(string text) {
     return text; // return the fully lowercase version
 }
 
-// ================================================
-// FUNCTION 2: getValidInput
-// Keeps asking the user for a number until they
-// enter a valid one within the allowed range.
-// This fixes the crash problem when wrong input is typed.
-// min = lowest allowed number
-// max = highest allowed number
-// ================================================
+/* FUNCTION 2: getValidInput
+* Keeps asking the user for a number until they
+* enter a valid one within the allowed range.
+* This fixes the crash problem when wrong input is typed.
+* min = lowest allowed number
+* max = highest allowed number*/
+
 int getValidInput(int min, int max) {
     int input;
     while (true) { // keep looping until valid input received
@@ -67,12 +64,10 @@ int getValidInput(int min, int max) {
     }
 }
 
-// ================================================
-// FUNCTION 3: isValidDate
-// Checks if a date typed by the user is real and
-// correctly formatted as YYYY-MM-DD.
-// Returns true if valid, false if not.
-// ================================================
+/* FUNCTION 3: isValidDate
+* Checks if a date typed by the user is real and correctly formatted as YYYY-MM-DD.
+* Returns true if valid, false if not.
+*/
 bool isValidDate(const string& date) {
     // date must be exactly 10 characters e.g. 2026-08-15
     if (date.length() != 10) return false;
@@ -111,11 +106,9 @@ bool isValidDate(const string& date) {
     return true; // all checks passed — date is valid
 }
 
-// ================================================
-// FUNCTION 4: getValidDateInput
-// Keeps asking the user to enter a date until
-// they type one in the correct format YYYY-MM-DD.
-// ================================================
+/* FUNCTION 4: getValidDateInput
+* Keeps asking the user to enter a date until they type one in the correct format YYYY-MM-DD.
+*/
 string getValidDateInput() {
     string inputDate;
     while (true) { // keep looping until valid date entered
@@ -127,12 +120,11 @@ string getValidDateInput() {
     }
 }
 
-// ================================================
-// FUNCTION 5: calculateDaysLeft
-// Calculates how many days remain until the deadline.
-// Uses a simple estimation based on year, month, day.
-// Returns 0 if the deadline has already passed.
-// ================================================
+/* FUNCTION 5: calculateDaysLeft
+* Calculates how many days remain until the deadline.
+* Uses a simple estimation based on year, month, day.
+* Returns 0 if the deadline has already passed.
+*/
 int calculateDaysLeft(const string& dueDateStr) {
     int year, month, day;
     char dash1, dash2;
@@ -157,13 +149,12 @@ int calculateDaysLeft(const string& dueDateStr) {
     return (diff < 0) ? 0 : diff; // if already passed return 0, otherwise return days left
 }
 
-// ================================================
-// FUNCTION 6: saveAssignmentsToFile
-// Saves ALL assignments to a text file on the computer.
-// This fixes the data loss problem — data survives
-// even after the program is closed.
-// Each assignment is saved on one line separated by |
-// ================================================
+/* FUNCTION 6: saveAssignmentsToFile
+* Saves ALL assignments to a text file on the computer.
+* This fixes the data loss problem — data survives
+* even after the program is closed.
+* Each assignment is saved on one line separated by 1*/
+
 void saveAssignmentsToFile(const vector<Assignment>& list) {
     ofstream outFile(FILE_NAME); // open file for writing
 
@@ -184,12 +175,12 @@ void saveAssignmentsToFile(const vector<Assignment>& list) {
     outFile.close(); // always close the file after writing
 }
 
-// ================================================
-// FUNCTION 7: loadAssignmentsFromFile
-// Reads assignments saved in the text file and
-// loads them back into the program when it opens.
-// This is what makes data persist between sessions.
-// ================================================
+/* FUNCTION 7: loadAssignmentsFromFile
+* Reads assignments saved in the text file and
+* loads them back into the program when it opens.
+* This is what makes data persist between sessions.
+*/
+
 void loadAssignmentsFromFile(vector<Assignment>& list) {
     ifstream inFile(FILE_NAME); // open file for reading
 
@@ -224,15 +215,14 @@ void loadAssignmentsFromFile(vector<Assignment>& list) {
     inFile.close(); // close file after reading
 }
 
-// ================================================
-// FUNCTION 8: addAssignments
-// Asks the student how many assignments they got today
-// and records each one with all its details.
-// ================================================
+/* FUNCTION 8: addAssignments
+* Asks the student how many assignments they got today
+* and records each one with all its details.*/
+
 void addAssignments(vector<Assignment>& assignments, const string& studentName) {
-    cout << "\n===================================" << endl;
-    cout << "       ADD TODAY'S ASSIGNMENTS     " << endl;
-    cout << "===================================" << endl;
+
+    cout << "\n\033[1m       ADD TODAY'S ASSIGNMENTS     \033[0m\n";
+    cout << "_____________________________________\n" << endl;
     cout << "Dear " << studentName << ", how many assignments were you given today? ";
     int numToday = getValidInput(0, 50); // validated — must be 0 to 50
 
@@ -265,16 +255,14 @@ void addAssignments(vector<Assignment>& assignments, const string& studentName) 
     saveAssignmentsToFile(assignments); // save immediately after adding
 }
 
-// ================================================
-// FUNCTION 9: checkDeadlines
-// Shows all assignments with their deadline status.
-// Uses real calendar date comparison to show
-// how many actual days are left.
-// ================================================
+/* FUNCTION 9: checkDeadlines
+* Shows all assignments with their deadline status.
+* Uses real calendar date comparison to show how many actual days are left.*/
+
 void checkDeadlines(const vector<Assignment>& assignments) {
-    cout << "\n===================================" << endl;
-    cout << "        DEADLINE STATUS            " << endl;
-    cout << "===================================" << endl;
+
+    cout << "\n\033[1m        DEADLINE STATUS            \033[0m\n";
+    cout << "___________________________________" << endl;
 
     if (assignments.empty()) { // check if no assignments exist
         cout << "No assignments recorded yet!" << endl;
@@ -308,25 +296,25 @@ void checkDeadlines(const vector<Assignment>& assignments) {
     }
 }
 
-// ================================================
-// FUNCTION 10: verifySubmission
-// Asks the student verification questions to confirm
-// they actually submitted their assignment.
-// Secretly compares their answer to the recorded
-// description — student does not know this is happening.
-// ================================================
+/* FUNCTION 10: verifySubmission
+* Asks the student verification questions to confirm
+* they actually submitted their assignment.
+* Secretly compares their answer to the recorded
+* description — student does not know this is happening.
+*/
+
 void verifySubmission(vector<Assignment>& assignments) {
-    cout << "\n===================================" << endl;
-    cout << "      SUBMISSION VERIFICATION      " << endl;
-    cout << "===================================" << endl;
+
+    cout << "\n\033[1m      SUBMISSION VERIFICATION      \033[0m\n";
+    cout << "__________________________________________\n";
 
     if (assignments.empty()) {
-        cout << "No assignments recorded yet!" << endl;
+        cout << "No assignments recorded yet!\n";
         return;
     }
 
     // collect only unsubmitted assignments into a separate list
-    cout << "Unsubmitted Assignments:" << endl;
+    cout << "Unsubmitted Assignments:\n";
     vector<int> unsubmittedIndices; // stores the index numbers of unsubmitted ones
 
     for (size_t i = 0; i < assignments.size(); i++) {
@@ -339,7 +327,7 @@ void verifySubmission(vector<Assignment>& assignments) {
     }
 
     if (unsubmittedIndices.empty()) {
-        cout << "All assignments have already been submitted! Great job!" << endl;
+        cout << "All assignments have already been submitted! Great job!\n";
         return;
     }
 
@@ -381,15 +369,14 @@ void verifySubmission(vector<Assignment>& assignments) {
         assignments[selected].wrongAttempts++;  // increase fail count
         saveAssignmentsToFile(assignments);     // save the updated count
 
-        cout << "\n===================================" << endl;
-        cout << "       VERIFICATION FAILED         " << endl;
-        cout << "===================================" << endl;
-        cout << "The title you entered does not match your recorded assignment." << endl;
+        cout << "\n\033[1m       VERIFICATION FAILED         \033[0m\n";
+        cout << "__________________________________________\n";
+        cout << "The title you entered does not match your recorded assignment.\n";
 
         if (assignments[selected].wrongAttempts >= 2) {
             cout << "\nWARNING: You have failed verification "
                  << assignments[selected].wrongAttempts << " time(s)." << endl;
-            cout << "Continued dishonesty will cost you marks!" << endl;
+            cout << "Continued dishonesty will cost you marks!\n";
         }
 
         cout << "\nPlease go and submit your "
@@ -397,15 +384,14 @@ void verifySubmission(vector<Assignment>& assignments) {
     }
 }
 
-// ================================================
-// FUNCTION 11: editAssignment
-// Lets the student fix mistakes in a recorded
-// assignment — course name, description, date or type.
-// ================================================
+/* FUNCTION 11: editAssignment
+* Lets the student fix mistakes in a recorded
+* assignment — course name, description, date or type.
+*/
+
 void editAssignment(vector<Assignment>& assignments) {
-    cout << "\n===================================" << endl;
-    cout << "        EDIT AN ASSIGNMENT         " << endl;
-    cout << "===================================" << endl;
+    cout << "\n\033[1m        EDIT AN ASSIGNMENT         \033[0m\n";
+    cout << "_____________________________________\n";
 
     if (assignments.empty()) {
         cout << "No assignments recorded yet!" << endl;
@@ -447,15 +433,15 @@ void editAssignment(vector<Assignment>& assignments) {
     cout << "Assignment updated and saved!" << endl;
 }
 
-// ================================================
-// FUNCTION 12: deleteAssignment
-// Removes an assignment from the list permanently.
-// Asks for confirmation first to prevent accidents.
-// ================================================
+/* FUNCTION 12: deleteAssignment
+* Removes an assignment from the list permanently.
+* Asks for confirmation first to prevent accidents.
+*/
+
 void deleteAssignment(vector<Assignment>& assignments) {
-    cout << "\n===================================" << endl;
-    cout << "       DELETE AN ASSIGNMENT        " << endl;
-    cout << "===================================" << endl;
+
+    cout << "\n\033[1m       DELETE AN ASSIGNMENT        \033[0m\n";
+    cout << "________________________________________";
 
     if (assignments.empty()) {
         cout << "No assignments recorded yet!" << endl;
@@ -484,19 +470,19 @@ void deleteAssignment(vector<Assignment>& assignments) {
     }
 }
 
-// ================================================
-// FUNCTION 13: refreshAssignments
-// Clears ALL assignments to start fresh.
-// Useful at the start of a new week or semester.
-// Asks for double confirmation before clearing.
-// ================================================
+
+/* FUNCTION 13: refreshAssignments
+* Clears ALL assignments to start fresh.
+* Useful at the start of a new week or semester.
+* Asks for double confirmation before clearing.
+*/
 void refreshAssignments(vector<Assignment>& assignments) {
-    cout << "\n===================================" << endl;
-    cout << "       REFRESH / CLEAR ALL DATA    " << endl;
-    cout << "===================================" << endl;
+
+    cout << "\n\033[1m       REFRESH / CLEAR ALL DATA    \033[0m\n";
+    cout << "_____________________________________\n";
 
     if (assignments.empty()) {
-        cout << "Your tracker is already empty!" << endl;
+        cout << "Your tracker is already empty!\n";
         return;
     }
 
@@ -509,17 +495,17 @@ void refreshAssignments(vector<Assignment>& assignments) {
     if (getValidInput(1, 2) == 1) {
         assignments.clear();               // empties the entire vector
         saveAssignmentsToFile(assignments); // overwrites file with empty data
-        cout << "\nTracker refreshed! All assignments have been cleared." << endl;
+        cout << "\nTracker refreshed! All assignments have been cleared.\n";
     } else {
-        cout << "\nRefresh cancelled. Your data is safe." << endl;
+        cout << "\nRefresh cancelled. Your data is safe.\n";
     }
 }
 
-// ================================================
-// MAIN FUNCTION
-// This is where the program starts.
-// It sets everything up and runs the main menu loop.
-// ================================================
+
+/* MAIN FUNCTION
+* This is where the program starts.
+* It sets everything up and runs the main menu loop.
+*/
 int main() {
 
     vector<Assignment> assignments; // create empty list of assignments
@@ -528,22 +514,22 @@ int main() {
     string studentName;
     string indexNumber;
 
-    // welcome screen
-    cout << "================================" << endl;
-    cout << "   GCTU ASSIGNMENT TRACKER      " << endl;
-    cout << "================================" << endl;
-    cout << "\nWelcome! Please enter your details." << endl;
+    // this is the welcome screen
+
+    cout << "\n\033[1m   GCTU ASSIGNMENT TRACKER      \033[0m\n";
+    cout << "____________________________________\n";
+    cout << "\nWelcome! Please enter your details.\n";
 
     // ask for student details — fixes hardcoded name problem
-    cout << "Your Name        : ";
+    cout << "Your Name: ";
     getline(cin, studentName);
     cout << "Your Index Number: ";
     getline(cin, indexNumber);
 
-    cout << "\n================================" << endl;
-    cout << "Welcome, " << studentName << "!" << endl;
-    cout << "Index Number: " << indexNumber << endl;
-    cout << "================================" << endl;
+    cout << "\n***********************************";
+    cout << "\n\033[1mWelcome, " << studentName << "!\033[0m" << endl;
+    cout << "\033[1mIndex Number: " << indexNumber << "\033[0m\n";
+    cout << "___________________________________" << endl;
     cout << "\nChecking your assignments..." << endl;
     cout << "-----------------------------------" << endl;
 
@@ -560,10 +546,10 @@ int main() {
     // main menu loop — keeps running until student exits
     int choice;
     do {
-        cout << "\n================================" << endl;
-        cout << "          MAIN MENU             " << endl;
+        cout << "\n*******************************\n";
+        cout << "\033[1m          MAIN MENU             \033[0m" << endl;
         cout << "  Student: " << studentName << endl;
-        cout << "================================" << endl;
+        cout << "**********************************\n";
         cout << "1. Add today's assignments" << endl;
         cout << "2. Check all deadlines" << endl;
         cout << "3. Verify assignment submission" << endl;
